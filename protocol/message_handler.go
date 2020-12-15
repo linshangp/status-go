@@ -814,7 +814,7 @@ func (m *MessageHandler) HandleChatIdentity(state *ReceivedMessageState, ci prot
 		chat.Active = false
 	}
 
-	logger.Info("Handling contact update")
+	logger.Info("Handling contact profile image update from ChatIdentity")
 
 	// TODO investigate potential race condition where user updates this contact's details and the contact update's
 	//  clock value is just less than the ChatIdentity clock and the ChatIdentity is processed first.
