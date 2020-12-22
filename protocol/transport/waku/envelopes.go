@@ -178,6 +178,7 @@ func (m *EnvelopesMonitor) handleEventEnvelopeSent(event types.EnvelopeEvent) {
 		}
 		m.batches[event.Batch][event.Hash] = struct{}{}
 		m.logger.Debug("waiting for a confirmation", zap.String("batch", event.Batch.String()))
+		m.logger.Debug("=== envelope sent but not acknowledged", zap.String("hash", event.Hash.String()))
 	}
 }
 
@@ -224,6 +225,7 @@ func (m *EnvelopesMonitor) handleAcknowledgedBatch(event types.EnvelopeEvent) {
 		}
 		m.envelopes[hash] = EnvelopeSent
 		if m.handler != nil {
+			m.logger.Debug("=== envelope acknowledged", zap.String("hash", hash.String()))
 			m.handler.EnvelopeSent(m.identifiers[hash])
 		}
 	}
