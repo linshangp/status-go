@@ -546,9 +546,11 @@ func (p *Peer) broadcast() error {
 			Hash:  e.Hash(),
 			Peer:  p.EnodeID(),
 		}
-		// if p.confirmationsEnabled {
-		event.Batch = batchHash
-		// }
+		if p.confirmationsEnabled {
+			event.Batch = batchHash
+		} else {
+			p.logger.Debug("=== confirmations NOT enabled for peer", zap.String("peer", event.Peer.String()))
+		}
 		p.host.SendEnvelopeEvent(event)
 	}
 	p.logger.Debug("broadcasted bundles successfully", zap.String("peerID", types.EncodeHex(p.ID())), zap.Int("count", len(bundle)))

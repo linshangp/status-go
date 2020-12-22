@@ -172,6 +172,7 @@ func (m *EnvelopesMonitor) handleEventEnvelopeSent(event types.EnvelopeEvent) {
 	m.logger.Debug("envelope is sent", zap.String("hash", event.Hash.String()), zap.String("peer", event.Peer.String()))
 
 	confirmationExpected := event.Batch != (types.Hash{})
+	m.logger.Debug("=== is confirmationExpedted?", zap.String("peer", event.Peer.String()), zap.Bool("confirmationExpected", confirmationExpected), zap.Bool("isMailserver?", m.isMailserver(event.Peer)))
 	if confirmationExpected {
 		if _, ok := m.batches[event.Batch]; !ok {
 			m.batches[event.Batch] = map[types.Hash]struct{}{}
